@@ -344,6 +344,29 @@ void CShip::collision_callback(IWorldObject *pOtherObject)
 		{
 			WeaponArch const *pArch = pProjectile->get_weapon_arch();
 
+			//Creating a variable for the damage modifiers that can be changed later.
+
+			float damage_modifier = 1.0f;
+
+			//Check so the attacking ship is not a nullpointer
+			CShip* pEnemy = SG::get_engine()->instance_get_checked<CShip>(pProjectile->get_parent_instance());
+			if (pEnemy != nullptr && pEnemy->get_parent_entity() != nullptr) {
+				auto pEnemy_Parent = pEnemy->get_parent_entity();
+
+				//Check that the projectile has been fired and apply an appropiate damage multiplier
+				if (pProjectile->is_missile()) {
+					damage_modifier += pEnemy_Parent->get_stat(Stat::MISSILE_PROFICIENCY) / 100; //Here we apply a multiplier based on proficiency, we divide by 100 to get a reasonable amount.
+				}
+				else {
+					if (pArch->flEnergyCost > 0) {
+						damage_modifier += pEnemy_Parent->get_stat(Stat::LASER_PROFICIENCY) / 100;
+					}
+					else {
+						damage_modifier += pEnemy_Parent->get_stat(Stat::KINETIC_PROFICIENCY) / 100;
+					}
+				}
+			}
+
 			//first apply the damage multiplier, which is usually 1.0 but for projectiles
 			//originating from the player, will depend on their stat modifiers
 			float flFinalHullDamage = pArch->flHullDamage * pProjectile->get_damage_multiplier();
@@ -402,6 +425,8 @@ void CShip::collision_callback(IWorldObject *pOtherObject)
 					 * metal they will loot.
 					 */
 					float flMetalMultiplier = 1.0f;
+
+					flMetalMultiplier += pPlayerEntity->get_stat(Stat::LUCK)/100; // Adds a resonable amount of luck.
 
 					unsigned int uiFinalMetalAward = (unsigned int)(flMetalMultiplier * uiMetalAward);
 
