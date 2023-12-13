@@ -20,7 +20,7 @@
 
 #include <unordered_map>
 
-enum class Stat : unsigned int
+enum class Stat : unsigned intD
 {
 	INVALID,
 	EVASION,
