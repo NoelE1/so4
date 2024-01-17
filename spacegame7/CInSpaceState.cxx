@@ -290,6 +290,9 @@ void CInSpaceState::state_prerender_tick(sf::View &mainView, sf::RenderWindow &s
 
 	if(!bContinue)
 	{
+		if (this->m_pPlayer != nullptr) {
+			this->m_pPlayer->set_angular_velocity(0.0f);
+		}
 		return;
 	}
 
