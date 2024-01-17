@@ -87,6 +87,13 @@ public:
 	virtual void get_skills(std::vector<SkillId> &) final;
 	virtual void clear_skills(void) final;
 
+	// emil added 4 lines
+	virtual float get_hit_points(void) final;
+	virtual void set_hit_points(float const) final;
+
+	virtual float get_shield(void) final;
+	virtual void set_shield(float const) final;
+
 protected:
 	Spinlock m_mFieldAccess;
 	Loadout m_lLoadout;
@@ -101,6 +108,10 @@ protected:
 	CStatBlock *m_pStatBlock;
 	unsigned int m_uiShipId;
 	unsigned int m_uiFreeSkillPoints;
+	
+	// emil added 2 lines
+	float health_points;
+	float shield;
 
 	unsigned long int m_ulCurrentExp;
 	unsigned long int m_ulExpToNextLevel;

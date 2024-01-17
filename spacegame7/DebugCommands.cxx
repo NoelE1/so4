@@ -125,6 +125,48 @@ void populate_debug_commands()
 	);
 
 	pDebugConsole->console_register_command(
+		"shp",
+		[pDebugConsole](std::vector<std::string> const& args) {
+
+			IWorld* pWorld = SG::get_world();
+
+			InstanceId uiPlayer = pWorld->get_player_unchecked();
+
+			if (uiPlayer != INVALID_INSTANCE)
+			{
+				CShip* pPlayerShip = SG::get_engine()->instance_get_checked<CShip>(uiPlayer);
+
+				if (pPlayerShip != nullptr)
+				{
+					pPlayerShip->set_hit_pts(std::stof(args[1]));
+					pDebugConsole->console_write_line("Set hit points");
+				}
+			}
+		}
+	);
+
+	pDebugConsole->console_register_command(
+		"ss",
+		[pDebugConsole](std::vector<std::string> const& args) {
+
+			IWorld* pWorld = SG::get_world();
+
+			InstanceId uiPlayer = pWorld->get_player_unchecked();
+
+			if (uiPlayer != INVALID_INSTANCE)
+			{
+				CShip* pPlayerShip = SG::get_engine()->instance_get_checked<CShip>(uiPlayer);
+
+				if (pPlayerShip != nullptr)
+				{
+					pPlayerShip->set_shield_pts(std::stof(args[1]));
+					pDebugConsole->console_write_line("Set shield");
+				}
+			}
+		}
+	);
+
+	pDebugConsole->console_register_command(
 		"tele",
 		[pDebugConsole](std::vector<std::string> const& args) {
 			unsigned int const expectedArguments = 3;

@@ -87,4 +87,11 @@ interface ICharacterEntity
 
 	virtual float get_stat(Stat const) = 0;
 	virtual void set_stats(CStatBlock const&) = 0;
+
+	// emil added 4 lines
+	virtual float get_hit_points(void) = 0;
+	virtual void set_hit_points(const float) = 0;
+
+	virtual float get_shield(void) = 0;
+	virtual void set_shield(const float) = 0;
 };

@@ -505,3 +505,28 @@ void CBaseCharacterEntity::clear_skills(void)
 
 	this->m_vSkills.clear();
 }
+
+// emil added 4 functions
+float CBaseCharacterEntity::get_hit_points(void) {
+	SCOPE_LOCK(this->m_mFieldAccess);
+
+	return this->health_points;
+}
+
+void CBaseCharacterEntity::set_hit_points(float const new_health) {
+	SCOPE_LOCK(this->m_mFieldAccess);
+
+	this->health_points = new_health;
+}
+
+float CBaseCharacterEntity::get_shield(void) {
+	SCOPE_LOCK(this->m_mFieldAccess);
+
+	return this->shield;
+}
+
+void CBaseCharacterEntity::set_shield(float const new_sheild) {
+	SCOPE_LOCK(this->m_mFieldAccess);
+
+	this->shield = new_sheild;
+}

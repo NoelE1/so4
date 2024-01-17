@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
@@ -89,7 +89,7 @@ public:
 		ImVec2 buttonSize(windowWidth - windowWidth / 4.0f, 0.0f);
 		ImGui::SetCursorPosX(windowWidth / 8.0f);
 
-		if(ImGui::Button("Equipment Trader", buttonSize))
+		if (ImGui::Button("Equipment Trader", buttonSize))
 		{
 			//SG::get_interface_manager()->free_all_panels();
 
@@ -97,7 +97,7 @@ public:
 		}
 
 		ImGui::SetCursorPosX(windowWidth / 8.0f);
-		if(ImGui::Button("Junk Trader", buttonSize))
+		if (ImGui::Button("Junk Trader", buttonSize))
 		{
 			//SG::get_interface_manager()->free_all_panels();
 
@@ -105,7 +105,7 @@ public:
 		}
 
 		ImGui::SetCursorPosX(windowWidth / 8.0f);
-		if(ImGui::Button("Material Trader", buttonSize))
+		if (ImGui::Button("Material Trader", buttonSize))
 		{
 			//SG::get_interface_manager()->free_all_panels();
 
@@ -126,7 +126,7 @@ public:
 		ImGui::Separator();
 
 		ImGui::SetCursorPosX(windowWidth / 8.0f);
-		if(ImGui::Button("Launch", buttonSize))
+		if (ImGui::Button("Launch", buttonSize))
 		{
 			std::string szRmsnString("");
 
@@ -142,6 +142,17 @@ public:
 			SG::get_game_data_manager()->dump_to_save(saveFileName, this->m_iBaseId);
 
 			SG::get_game_state_manager()->transition_game_state(new CSectorTransitionState(this->m_base.get_launch_sector(), szRmsnString, this->m_base.get_launch_pos()));
+		}
+
+		// emil added
+		ImGui::SetCursorPosX(windowWidth / 8.0f);
+		if (ImGui::Button("Repair ship", buttonSize))
+		{
+			// lättläst ?? fixar kanske sen
+			float max_hp = SG::get_game_data_manager()->get_arch<ShipArch>(
+				SG::get_intransient_data_manager()->get_character_entity_manager()->get_player_character_entity()->get_ship()
+			)->flMaxHitPoints;
+			SG::get_intransient_data_manager()->get_character_entity_manager()->get_player_character_entity()->set_hit_points(max_hp);
 		}
 
 		ImGui::End();
@@ -183,7 +194,7 @@ private:
 	bool m_bPanelActive;
 
 	BaseId m_iBaseId;
-	CBase const &m_base;
+	CBase const& m_base;
 	char m_szDescBuffer[BUFFER_SIZE];
 
 	bool m_bDoRmsnOnLaunch;

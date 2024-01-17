@@ -176,8 +176,13 @@ void CInSpaceState::state_initializing(void)
 	parms.uiAppearanceId = parms.pArch->uiShipAppearance;
 	parms.flHitPoints = parms.pArch->flMaxHitPoints;
 	parms.flRadius = 64.0f;
-	parms.flHitPoints = parms.pArch->flMaxHitPoints;
-	parms.flShieldPoints = parms.pArch->flMaxShieldPoints;
+	// emil added 4 lines & changed 2
+	float hp = pPlayerEntity->get_hit_points();
+	float sp = pPlayerEntity->get_shield();
+	if (hp <= 0) hp = parms.pArch->flMaxHitPoints;
+	if (sp <= 0) sp = parms.pArch->flMaxShieldPoints;
+	parms.flHitPoints = hp;
+	parms.flShieldPoints = sp;
 	parms.szName = "Player";
 	parms.pFaction = nullptr;
 	parms.pPilot = nullptr;
@@ -208,6 +213,8 @@ void CInSpaceState::state_initializing(void)
 	this->m_pWorld->set_player(this->m_iPlayerId);
 
 	this->create_ingame_windows();
+	
+	// emil added 2 line
 
 	//Hyperspace exit effect
 	SG::get_audio_manager()->play_sound(12);
@@ -271,6 +278,10 @@ void CInSpaceState::state_prerender_tick(sf::View &mainView, sf::RenderWindow &s
 	if(this->m_pPlayer)
 	{
 		this->m_pAudioManager->set_listener_point(this->m_pPlayer->get_position());
+		// emil added 3 lines
+		ICharacterEntity* pPlayerEntity = SG::get_intransient_data_manager()->get_character_entity_manager()->get_player_character_entity();
+		pPlayerEntity->set_hit_points(this->m_pPlayer->get_hit_pts());
+		pPlayerEntity->set_shield(this->m_pPlayer->get_shield_pts());
 	}
 
 	this->m_mFieldAccess.lock();
